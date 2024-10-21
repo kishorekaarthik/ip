@@ -1,0 +1,109 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Ensure background applies to the whole page */
+html,
+body {
+    height: 100%;
+    font-family: 'Cabin', sans-serif;
+    background-color: #fef8f4;
+    color: #273144;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Header Styling */
+.header {
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 0 0 20px 20px;
+    padding: 0 5%;
+    background-color: transparent;
+}
+
+.navbar a {
+    color: #273144;
+    font-weight: bold;
+    margin-right: 20px;
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    text-decoration: underline;
+}
+
+/* Line Below Navbar */
+.navbar-line {
+    width: 100%;
+    border-top: 2px solid #273144;
+    margin-top: 10px;
+}
+
+/* Trends Section Styling */
+.trends-section {
+    padding: 50px 5%;
+    text-align: center;
+}
+
+.trends-section h2 {
+    font-size: 2.2rem;
+    margin-bottom: 40px;
+    color: #273144;
+}
+
+/* Chart Styling */
+#priceTrendChart {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Table Styling */
+.table {
+    margin-top: 30px;
+    width: 100%;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.table th, 
+.table td {
+    padding: 15px;
+    text-align: center;
+    font-size: 1rem;
+    color: #273144;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.table th {
+    background-color: #ff7b54;
+    color: white;
+    font-weight: bold;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(255, 123, 84, 0.1);
+}
+
+.table-striped tbody tr:nth-of-type(even) {
+    background-color: #fff;
+}
+
+/* Adjustments for mobile */
+@media (max-width: 768px) {
+    .table th, 
+    .table td {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+
+    .trends-section {
+        padding: 30px 5%;
+    }
+}

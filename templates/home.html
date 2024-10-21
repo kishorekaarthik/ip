@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PriceProbe | Home</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;700&display=swap">
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style id="theme-stylesheet">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            font-family: 'Cabin', sans-serif;
+            background-color: #fef8f4;
+            color: #273144;
+            background-size: contain;
+            transition: background-color 0.3s, color 0.3s;
+            scroll-behavior: smooth;
+        }
+
+        .logo {
+            color: #273144;
+            font-weight: bold;
+            padding-top: 20px;
+            text-decoration: none;
+        }
+
+        .header {
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 0 0 20px 20px;
+            padding: 0 5%;
+            background-color: transparent;
+        }
+
+        .navbar a {
+            color: #273144;
+            font-weight: bold;
+            margin-right: 20px;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+
+        .navbar-line {
+            width: 100%;
+            border-top: 2px solid #273144;
+            margin-top: 10px;
+        }
+
+        .main-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 100px 5%;
+            min-height: 60vh;
+        }
+
+        .main-text {
+            max-width: 50%;
+        }
+
+        .main-text h1 {
+            font-size: 3rem;
+            color: #273144;
+        }
+
+        .main-text p {
+            margin: 20px 0;
+            color: #555;
+        }
+
+        .btn-container {
+            margin-top: 20px;
+        }
+
+        .btn-container a {
+            background-color: #ff7b54;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            margin-right: 10px;
+            font-weight: bold;
+            text-decoration: none;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-container a:hover {
+            background-color: #ff6535;
+        }
+
+        .section-title {
+            text-align: center;
+            margin: 50px 0;
+            font-size: 2.5rem;
+            color: #273144;
+        }
+
+        .faq-section {
+            padding: 50px 5%;
+        }
+
+        .faq-item {
+            margin-bottom: 20px;
+        }
+
+        .faq-item h5 {
+            color: #273144;
+            cursor: pointer;
+        }
+
+        .faq-item p {
+            display: none;
+            color: #555;
+        }
+
+        .faq-item.active p {
+            display: block;
+        }
+
+        .contact-section {
+            padding: 50px 5%;
+            border-radius: 20px;
+        }
+
+        .contact-section h3 {
+            margin-bottom: 30px;
+            color: #273144;
+        }
+
+        .contact-section label {
+            color: #273144;
+        }
+
+        .contact-section input,
+        .contact-section textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .contact-section button {
+            background-color: #ff7b54;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+        }
+
+        .contact-section button:hover {
+            background-color: #ff6535;
+        }
+
+        html.dark-mode,
+        body.dark-mode {
+            background-color: #000;
+            color: #f5f5f5;
+        }
+
+        .dark-mode .navbar a,
+        .dark-mode h1,
+        .dark-mode h2,
+        .dark-mode h3,
+        .dark-mode h5,
+        .dark-mode p,
+        .dark-mode label {
+            color: #f5f5f5;
+        }
+
+        .dark-mode .btn-container a,
+        .dark-mode button,
+        .dark-mode .contact-section button {
+            background-color: #ff7b54;
+            color: #fff;
+        }
+
+        .dark-mode .btn-container a:hover,
+        .dark-mode button:hover,
+        .dark-mode .contact-section button:hover {
+            background-color: #ff6535;
+        }
+
+        .dark-mode .faq-section,
+        .dark-mode .contact-section,
+        .dark-mode footer {
+            background-color: #000;
+            border-color: #444;
+        }
+
+        .dark-mode .navbar-line {
+            border-color: #444;
+        }
+
+        .dark-mode .faq-item p {
+            color: #f5f5f5;
+        }
+
+        .hover-effect {
+            padding: 20px;
+            border: 1px solid transparent;
+            border-radius: 10px;
+            transition: background-color 0.3s, transform 0.3s, border-color 0.3s;
+        }
+
+        .hover-effect:hover {
+            background-color: #ffefea;
+            transform: translateY(-5px);
+            border-color: #ff7b54;
+        }
+
+        @media (max-width: 768px) {
+            .main-section {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .main-text,
+            .main-image {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="logo">
+            <p class="display-5">PriceProbe</p>
+        </div>
+        <nav class="navbar">
+            <a href="/">Home</a>
+            <a href="#faq">FAQ</a>
+            <a href="/predict">Predict</a>
+            <a href="/mortgage">Mortgage Calculator</a>
+            <a href="/trends">Trends</a>
+            <button id="theme-toggle" class="btn btn-light">Dark Mode</button>
+        </nav>
+    </header>
+
+    <div class="navbar-line"></div>
+    <section class="main-section">
+        <div class="main-text">
+            <h1>Predict House Prices and Calculate Your Mortgage with Ease</h1>
+            <p>Use our advanced tools to estimate home prices and plan your mortgage efficiently!</p>
+            <div class="btn-container">
+                <a href="/predict">Predict House Price</a>
+                <a href="/mortgage">Mortgage Calculator</a>
+            </div>
+        </div>
+
+        <div class="main-image">
+            <img src="https://i.postimg.cc/xdTFtdXc/bg.jpg" alt="House Image">
+        </div>
+    </section>
+
+    <section class="container">
+        <h2 class="section-title">What, Why, and How</h2>
+        <div class="row">
+            <div class="col-md-4 hover-effect">
+                <h3>What</h3>
+                <p>We provide you with advanced house price prediction and mortgage calculation tools, helping you make informed decisions.</p>
+            </div>
+            <div class="col-md-4 hover-effect">
+                <h3>Why</h3>
+                <p>With fluctuating markets, it’s important to stay updated on potential house prices. Our tools ensure you are well-prepared before making any commitments.</p>
+            </div>
+            <div class="col-md-4 hover-effect">
+                <h3>How</h3>
+                <p>By utilizing the latest algorithms and data, we offer predictions and calculators that give you accurate and actionable insights.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="faq-section">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <div class="faq-item">
+            <h5>How does the price prediction tool work?</h5>
+            <p>Our tool uses machine learning models and market data to predict home prices based on various factors like location, size, and market trends.</p>
+        </div>
+        <div class="faq-item">
+            <h5>What data is used in the mortgage calculator?</h5>
+            <p>The mortgage calculator uses your desired loan amount, interest rate, and loan term to give you a clear breakdown of your monthly payments.</p>
+        </div>
+        <div class="faq-item">
+            <h5>Can I trust the predictions made by the tool?</h5>
+            <p>While we strive for accuracy, please remember that predictions are based on available data and market trends, which can fluctuate.</p>
+        </div>
+    </section>
+
+    <section class="contact-section">
+        <h3>Contact Us</h3>
+        <form>
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </section>
+
+    <footer>
+        <p style="text-align: center;">&copy; 2024 PriceProbe. All rights reserved.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            themeToggle.innerText = document.body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
+        });
+
+        const faqItems = document.querySelectorAll('.faq-item h5');
+        faqItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const parent = item.parentElement;
+                parent.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+
+</html>

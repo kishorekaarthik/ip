@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PriceProbe | Mortgage Calculator</title>
+    <!-- Google Cabin Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;700&display=swap">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='mort.css') }}">
+</head>
+
+<body>
+
+    <!-- Header with Navigation -->
+    <header class="header">
+        <div class="logo">
+            <p class="display-5">PriceProbe</p>
+        </div>
+        <nav class="navbar">
+            <a href="/">Home</a>
+            <a href="/predict">Predict</a>
+        </nav>
+    </header>
+
+    <!-- Line below Navbar -->
+    <div class="navbar-line"></div>
+
+    <!-- Form Section -->
+    <section class="form-section">
+        <div class="form-container">
+            <h2>Mortgage Calculator</h2>
+            <form method="POST" action="/mortgage">
+                <div class="form-group">
+                    <label for="principal">Loan Amount</label>
+                    <input type="number" class="form-control" id="principal" name="principal" placeholder="Enter loan amount" required>
+                </div>
+                <div class="form-group">
+                    <label for="rate">Interest Rate (%)</label>
+                    <input type="number" class="form-control" id="rate" name="rate" step="0.01" placeholder="Enter interest rate" required>
+                </div>
+                <div class="form-group">
+                    <label for="years">Term (Years)</label>
+                    <input type="number" class="form-control" id="years" name="years" placeholder="Enter loan term in years" required>
+                </div>
+                <button type="submit" class="btn btn-block">Calculate Mortgage</button>
+            </form>
+
+            {% if mortgage %}
+            <div class="alert alert-success mt-4" role="alert">
+                Monthly Mortgage Payment: ₹{{ mortgage | round(2) }}
+            </div>
+            {% endif %}
+        </div>
+    </section>
+
+</body>
+
+</html>

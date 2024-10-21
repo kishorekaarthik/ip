@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PriceProbe | Trends</title>
+    <!-- Google Cabin Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;700&display=swap">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Cabin', sans-serif;
+            background-color: #fef8f4;
+            color: #273144;
+        }
+
+        .header {
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 0 0 20px 20px;
+            padding: 0 5%;
+        }
+
+        .navbar a {
+            color: #273144;
+            font-weight: bold;
+            margin-right: 20px;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+
+        .chart-container {
+            margin: 50px auto;
+            max-width: 80%;
+        }
+
+        canvas {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="logo">
+            <p class="display-5">PriceProbe</p>
+        </div>
+        <nav class="navbar">
+            <a href="/">Home</a>
+            <a href="/predict">Predict</a>
+            <a href="/mortgage">Mortgage Calculator</a>
+            <a href="/trends">Trends</a>
+        </nav>
+    </header>
+
+    <div class="chart-container">
+        <h2 class="text-center">House Price Trends</h2>
+        <canvas id="priceTrendsChart"></canvas>
+    </div>
+
+    <script>
+        // Fetch the trends data from the API
+        fetch('/get_trends')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Check if data is empty
+                if (data.length === 0) {
+                    document.getElementById('priceTrendsChart').style.display = 'none'; // Hide chart if no data
+                    document.querySelector('.chart-container').innerHTML += '<p class="text-center">No trends available.</p>';
+                    return;
+                }
+
+                const timestamps = data.map(item => new Date(item.timestamp).toLocaleDateString());
+                const prices = data.map(item => item.price);
+
+                const ctx = document.getElementById('priceTrendsChart').getContext('2d');
+                const chart = new Chart(ctx, {
+                    type: 'line', // Line chart for trends
+                    data: {
+                        labels: timestamps,
+                        datasets: [{
+                            label: 'House Price',
+                            data: prices,
+                            borderColor: 'rgba(255, 123, 84, 1)',
+                            backgroundColor: 'rgba(255, 123, 84, 0.2)',
+                            borderWidth: 2,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Date'
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Price (in rupees)'
+                                }
+                            }
+                        },
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: true
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('There has been a problem with your fetch operation:', error);
+                document.querySelector('.chart-container').innerHTML += '<p class="text-center">Error loading trends data.</p>';
+            });
+    </script>
+</body>
+
+</html>
