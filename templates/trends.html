@@ -10,11 +10,19 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="icon" href="{{ url_for('static', filename='logo.png') }}" type="image/png">
     <style>
         body {
             font-family: 'Cabin', sans-serif;
             background-color: #fef8f4;
             color: #273144;
+        }
+
+        .logo {
+            color: #273144;
+            font-weight: bold;
+            padding-top: 20px;
+            text-decoration: none;
         }
 
         .header {

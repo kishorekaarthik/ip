@@ -16,6 +16,13 @@ body {
 }
 
 /* Header Styling */
+.logo {
+    color: #273144;
+    font-weight: bold;
+    padding-top: 20px;
+    text-decoration: none;
+}
+
 .header {
     padding: 20px 0;
     display: flex;

@@ -20,7 +20,32 @@ firebase_admin.initialize_app(cred)
 db = firestore.client()
 
 EMAIL_ADDRESS = '220701135@rajalakshmi.edu.in'
-EMAIL_PASSWORD = 'mithi123'
+EMAIL_PASSWORD = 'rxkq omqy jork mjoe'
+
+def send_calculated_email(email, subject, message):
+    msg = MIMEText(message)
+    msg['Subject'] = subject
+    msg['From'] = EMAIL_ADDRESS
+    msg['To'] = email
+
+    try:
+        with smtplib.SMTP('smtp.gmail.com', 587) as server:
+            server.starttls()
+            server.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+            server.send_message(msg)
+        return True
+    except Exception as e:
+        print(f"Error sending email: {e}")
+        return False
+    
+def get_past_searches():
+    try:
+        docs = db.collection('searched_houses').order_by('timestamp', direction=firestore.Query.DESCENDING).stream()
+        return [doc.to_dict() for doc in docs]
+    except Exception as e:
+        print(f"Error fetching past searches: {e}")
+        return []
+
 
 def save_search(location, sqft, bhk, bath, price):
     try:
@@ -91,29 +116,6 @@ def get_past_searches():
 def home():
     return render_template('home.html')
 
-@app.route('/send_email', methods=['POST'])
-def send_email():
-    name = request.form['name']
-    email = request.form['email']
-    message = request.form['message']
-    
-    msg = MIMEText(f"Name: {name}\nEmail: {email}\nMessage: {message}")
-    msg['Subject'] = 'Contact Form Submission'
-    msg['From'] = EMAIL_ADDRESS
-    msg['To'] = EMAIL_ADDRESS
-
-    try:
-        with smtplib.SMTP('smtp.gmail.com', 587) as server:
-            server.starttls()
-            server.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
-            server.send_message(msg)
-        
-        flash('Your message has been sent successfully!', 'success')
-    except Exception as e:
-        flash(f'An error occurred: {str(e)}', 'danger')
-    
-    return redirect(url_for('home'))
-
 @app.route('/predict', methods=['GET', 'POST'])
 def predict():
     price = None
@@ -124,17 +126,24 @@ def predict():
         sqft = request.form.get('sqft', 0, type=float)
         bhk = request.form.get('bkh', 0, type=int)
         bathroom = request.form.get('bathroom', 0, type=int)
+        email = request.form.get('email', '')
 
         if location and sqft > 0 and bhk > 0 and bathroom >= 0:
             price = get_estimated_price(location, sqft, bhk, bathroom)
             save_search(location, sqft, bhk, bathroom, price)
+            
+            # Send email with the predicted price
+            if email:
+                message = f"Estimated Price for your criteria:\nLocation: {location}\nSqft: {sqft}\nBHK: {bhk}\nBathroom: {bathroom}\nPrice: {price}"
+                send_calculated_email(email, "Predicted House Price", message)
+                flash('The estimated price has been sent to your email.', 'success')
 
     return render_template('predict.html', price=price, past_searches=past_searches)
 
 @app.route('/get_locations')
 def get_locations():
     return jsonify({
-        'locations': __locations
+        'locations': __locations  # Ensure __locations is properly loaded with location data
     })
 
 @app.route('/mortgage', methods=['GET', 'POST'])
@@ -144,10 +153,17 @@ def mortgage():
         principal = request.form.get('principal', 0, type=float)
         rate = request.form.get('rate', 0, type=float) / 100 / 12
         years = request.form.get('years', 0, type=int) * 12
+        email = request.form.get('email', '')
 
         if principal > 0 and rate >= 0 and years > 0:
             mortgage = (principal * rate) / (1 - (1 + rate) ** -years)
             save_mortgage(principal, rate * 12 * 100, years // 12, mortgage)
+            
+            # Send email with the mortgage calculation
+            if email:
+                message = f"Mortgage Calculation:\nPrincipal: {principal}\nRate: {rate * 12 * 100}%\nYears: {years // 12}\nMonthly Payment: {mortgage}"
+                send_calculated_email(email, "Mortgage Calculation", message)
+                flash('The mortgage calculation has been sent to your email.', 'success')
 
     return render_template('mortgage.html', mortgage=mortgage)
 

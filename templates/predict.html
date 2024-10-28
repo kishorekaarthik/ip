@@ -10,21 +10,19 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='logo.png') }}" type="image/png">
 
 
     <script>
-        
         function loadLocations() {
             fetch('/get_locations')
                 .then(response => response.json())
                 .then(data => {
                     const locationSelect = document.getElementById('location');
-
                     
                     data.locations.forEach(location => {
                         const optionExists = Array.from(locationSelect.options).some(option => option.value === location);
 
-                        
                         if (!optionExists) {
                             const option = document.createElement('option');
                             option.value = location;
@@ -49,6 +47,7 @@
         <nav class="navbar">
             <a href="/">Home</a>
             <a href="/mortgage">Mortgage Calculator</a>
+            <a href="/trends">Trends</a>
         </nav>
     </header>
 
@@ -95,11 +94,15 @@
                         <option value="8">8</option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label for="email">Email Address (optional)</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email to receive results">
+                </div>
                 <button type="submit" class="btn btn-block">Predict Price</button>
             </form>
 
             {% if price %}
-            <div class="alert alert-success" role="alert">
+            <div class="alert alert-success mt-4" role="alert">
                 Predicted Price: ₹{{ price }} lakhs
             </div>
             {% endif %}
